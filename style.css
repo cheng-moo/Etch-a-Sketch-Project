@@ -7,7 +7,7 @@ body {
     box-sizing: border-box;
 }
 .container {
-    width: 400px;
+    max-width: 400px;
     display: grid;
     grid-template-columns: repeat(16,1fr);
     justify-content: center;
@@ -15,8 +15,10 @@ body {
     margin: 0 auto;
 }
 .square {
-    width: 30px;
-    height: 30px;
     background-color: #fff;
     border: 1px solid #000;
+}
+
+.color {
+    background-color: #000;
 }
