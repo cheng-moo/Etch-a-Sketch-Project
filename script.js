@@ -2,6 +2,10 @@
 const container = document.createElement('div');
 container.className='container';
 document.body.appendChild(container);
+
+let mouseDown = false;
+document.body.onmousedown = () => (mouseDown = true);
+document.body.onmouseup = () => (mouseDown = false);
 //square divs
 for(let i = 0; i < 256; i++) {
     const squareDiv = document.createElement('div');
@@ -29,6 +33,7 @@ squareDivs.forEach(squareDiv => {
     squareDiv.addEventListener('mouseenter', hover);
     squareDiv.addEventListener('mouseleave', hoverEnd)
     squareDiv.addEventListener('mousedown', draw);
+    squareDiv.addEventListener('mouseover', draw);
    
 })
 function hover (e) {
@@ -38,6 +43,7 @@ function hoverEnd (e) {
     e.target.style.backgroundColor='';
 }
 function draw(e) {
+    if(e.type === 'mouseover' && !mouseDown) return;
     e.target.classList.add('color');
 }
 const clearBtn = document.querySelector('.clear');
@@ -75,5 +81,8 @@ const squareDivs = document.querySelectorAll('.square');
 squareDivs.forEach(squareDiv => {
     squareDiv.addEventListener('mouseenter', hover);
     squareDiv.addEventListener('mouseleave', hoverEnd)
-    squareDiv.addEventListener('mousedown', draw); });
+    squareDiv.addEventListener('mousedown', draw); 
+    squareDiv.addEventListener('mouseover', draw); 
+        });
+    
 }

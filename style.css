@@ -17,6 +17,7 @@ body {
 .square {
     background-color: #fff;
     border: 1px solid #000;
+    user-select: none;
 }
 
 .color {
