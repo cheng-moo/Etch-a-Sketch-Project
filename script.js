@@ -1,3 +1,11 @@
+//Set Default Values
+const DEFAULT_COLOR = '#000000';
+const DEFAULT_MODE = 'color';
+const DEFAULT_SIZE = 16;
+
+let currentColor = DEFAULT_COLOR;
+let currentMode = DEFAULT_MODE;
+let currentSize = DEFAULT_SIZE;
 //container
 const container = document.createElement('div');
 container.className='container';
@@ -6,17 +14,18 @@ document.body.appendChild(container);
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
+
 //square divs
-for(let i = 0; i < 256; i++) {
+for(let i = 0; i < currentSize * currentSize; i++) {
     const squareDiv = document.createElement('div');
     squareDiv.className='square';
     let height = 30;
     let width = height;
-    while (16 * 16 * height * width > 160000) {
+    while (currentSize * currentSize * height * width > 160000) {
         height--;
         width = height;
     }
-    while (16 * 16 * height * width < 160000) {
+    while (currentSize * currentSize * height * width < 160000) {
         height++;
         width = height;
     }
@@ -48,7 +57,16 @@ function hoverEnd (e) {
 }
 function draw(e) {
     if(e.type === 'mouseover' && !mouseDown) return;
+    if (currentMode === 'rainbow') {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        e.target.style.backgroundColor = `rgb(${r},${g},${b})`;
+    } else if (currentMode === 'color') {
     e.target.style.backgroundColor= colorPallete.value;
+    } else if (currentMode === 'eraser') {
+        e.target.style.backgroundColor = '#fefefe';
+    }
     console.log(colorPallete.value);
 }
 const clearBtn = document.querySelector('.clear');
@@ -91,6 +109,7 @@ squareDivs.forEach(squareDiv => {
         });
     
 }
+//Adding Colors 
 let colorPallete = document.querySelector('input');
 colorPallete.addEventListener('change', choose)
 function choose (e) {
@@ -100,3 +119,37 @@ function choose (e) {
     console.log(currentColor);
 }
 console.log(colorPallete.value);
+//Adding Modes 
+    //setCurrentMode function
+function setCurrentMode (newMode) {
+    activateButton(newMode)
+    currentMode = newMode;
+}
+
+    //Get Buttons
+const colorBtn = document.querySelector('.colorBtn');
+const rainbowBtn = document.querySelector('.rainbowBtn');
+const eraserBtn = document.querySelector('.eraserBtn');
+    //Add Event Handlers
+colorBtn.onclick = () => setCurrentMode('color');
+rainbowBtn.onclick = () => setCurrentMode('rainbow');
+eraserBtn.onclick = () => setCurrentMode('eraser');
+
+    //activateButton function
+function activateButton (newMode) {
+    if (currentMode === 'rainbow') {
+        rainbowBtn.classList.remove('active');
+    } else if (currentMode === 'color') {
+        colorBtn.classList.remove('active');
+    } else if (currentMode === 'eraser') {
+        eraserBtn.classList.remove('active');
+    }
+
+    if (newMode === 'rainbow') {
+        rainbowBtn.classList.add('active');
+    } else if (newMode === 'color') {
+        colorBtn.classList.add('active');
+    } else if (newMode === 'eraser') {
+        eraserBtn.classList.add('active');
+    }
+}
