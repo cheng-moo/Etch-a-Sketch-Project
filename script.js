@@ -2,7 +2,7 @@
 const container = document.createElement('div');
 container.className='container';
 document.body.appendChild(container);
-
+//Saving the mouseDown state in a variable and it would never change until mouse up
 let mouseDown = false;
 document.body.onmousedown = () => (mouseDown = true);
 document.body.onmouseup = () => (mouseDown = false);
@@ -32,19 +32,24 @@ const squareDivs = document.querySelectorAll('.square');
 squareDivs.forEach(squareDiv => {
     squareDiv.addEventListener('mouseenter', hover);
     squareDiv.addEventListener('mouseleave', hoverEnd)
+ //Color The Squares
+ //both mousedown and mouseover use draw function but it'll only work if both mouseover and mouseDown var is true
     squareDiv.addEventListener('mousedown', draw);
     squareDiv.addEventListener('mouseover', draw);
    
 })
 function hover (e) {
-    e.target.style.backgroundColor="#d3cfcf";
+
+    e.target.classList.add ('hover-color');
 }
 function hoverEnd (e) {
-    e.target.style.backgroundColor='';
+    
+    e.target.classList.remove ('hover-color');
 }
 function draw(e) {
     if(e.type === 'mouseover' && !mouseDown) return;
-    e.target.classList.add('color');
+    e.target.style.backgroundColor= colorPallete.value;
+    console.log(colorPallete.value);
 }
 const clearBtn = document.querySelector('.clear');
 clearBtn.addEventListener('click', clear);
@@ -86,3 +91,12 @@ squareDivs.forEach(squareDiv => {
         });
     
 }
+let colorPallete = document.querySelector('input');
+colorPallete.addEventListener('change', choose)
+function choose (e) {
+    // console.log(e.target.value);
+    let currentColor;
+    currentColor = e.target.value;
+    console.log(currentColor);
+}
+console.log(colorPallete.value);

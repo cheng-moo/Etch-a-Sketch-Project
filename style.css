@@ -20,6 +20,6 @@ body {
     user-select: none;
 }
 
-.color {
-    background-color: #000;
+.hover-color {
+    background-color: #d3cfcf;
 }
